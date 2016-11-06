@@ -57,3 +57,16 @@ angular.module('passwords', ['ionic, firebase'])
     // https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_Block_Chaining_.28CBC.29
     // https://en.wikipedia.org/wiki/Data_buffer
 })
+
+// a prototype for generating a hexadecimal version of a string
+String.prototype.toHex = function(){
+    var buffer = forge.util.createBuffer(this.toString());
+    return buffer.toHex();
+}
+
+// a prototype for generating a unique hash from a string value using forge library
+String.prototype.toSHA1 = function(){
+    var md = forge.md.sha1.create();
+    md.update(this);
+    return md.digest().toHex();
+}
