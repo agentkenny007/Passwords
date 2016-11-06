@@ -58,6 +58,48 @@ angular.module('passwords', ['ionic, firebase'])
     // https://en.wikipedia.org/wiki/Data_buffer
 })
 
+.config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state("locked", {
+            url: "/locked",
+            templateUrl: "templates/locked.html",
+            controller: "VaultController",
+            cache: false
+        })
+        .state("createvault", {
+            url: "/createvault",
+            templateUrl: "templates/create_vault.html",
+            controller: "VaultController"
+        })
+        .state("firebase", {
+            url: "/firebase",
+            templateUrl: "templates/firebase.html",
+            controller: "FirebaseController"
+        })
+        .state("categories", {
+            url: "/categories/:masterPassword",
+            templateUrl: "templates/categories.html",
+            controller: "CategoryController"
+        })
+        .state("passwords", {
+            url: "/passwords/:categoryId/:masterPassword",
+            templateUrl: "templates/password_list.html",
+            controller: "PasswordController",
+            cache: false
+        })
+        .state("newpassword", {
+            url: "/newpassword/:categoryId/:masterPassword",
+            templateUrl: "templates/password_new.html",
+            controller: "PasswordController"
+        })
+        .state("viewpassword", {
+            url: "/viewpassword/:categoryId/:masterPassword/:passwordId",
+            templateUrl: "templates/password_view.html",
+            controller: "PasswordController"
+        });
+    $urlRouterProvider.otherwise('/locked');
+});
+
 // a prototype for generating a hexadecimal version of a string
 String.prototype.toHex = function(){
     var buffer = forge.util.createBuffer(this.toString());
