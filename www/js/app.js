@@ -18,7 +18,7 @@ angular.module('passwords', ['ionic, firebase'])
 
 .factory("$cipherFactory", function(){
     return {
-        encrypt: function(message, password) { // to encrypt a password protected message with the purpose of storing it in a database
+        encrypt: function(message, password){ // to encrypt a password protected message with the purpose of storing it in a database
             // create a randomly generated 128 byte salt to use when we hash the supplied password
             var salt = forge.random.getBytesSync(128); // https://en.wikipedia.org/wiki/Salt_(cryptography)
             // create a salted key based upon the password string supplied
@@ -35,7 +35,7 @@ angular.module('passwords', ['ionic, firebase'])
             // return an object with references to Base64 encoded strings of our encrypted message, salt, and init vector
             return { cipher_text: cipherText, salt: forge.util.encode64(salt), iv: forge.util.encode64(iv) };
         },
-        decrypt: function(cipherText, password, salt, iv, options) { // to decrypt a password protected message returned from a database
+        decrypt: function(cipherText, password, salt, iv, options){ // to decrypt a password protected message returned from a database
             // create a salted key based upon the supplied password and the salt we stored
             var key = forge.pkcs5.pbkdf2(password, forge.util.decode64(salt), 4, 16);
             // create a decryption cypher to decrypt our message
@@ -58,43 +58,43 @@ angular.module('passwords', ['ionic, firebase'])
     // https://en.wikipedia.org/wiki/Data_buffer
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider){
     $stateProvider
         .state("locked", {
             url: "/locked",
-            templateUrl: "templates/locked.html",
+            templateUrl: "templates/locked.htm",
             controller: "VaultController",
             cache: false
         })
         .state("createvault", {
             url: "/createvault",
-            templateUrl: "templates/create_vault.html",
+            templateUrl: "templates/create_vault.htm",
             controller: "VaultController"
         })
         .state("firebase", {
             url: "/firebase",
-            templateUrl: "templates/firebase.html",
+            templateUrl: "templates/firebase.htm",
             controller: "FirebaseController"
         })
         .state("categories", {
             url: "/categories/:masterPassword",
-            templateUrl: "templates/categories.html",
+            templateUrl: "templates/categories.htm",
             controller: "CategoryController"
         })
         .state("passwords", {
             url: "/passwords/:categoryId/:masterPassword",
-            templateUrl: "templates/password_list.html",
+            templateUrl: "templates/password_list.htm",
             controller: "PasswordController",
             cache: false
         })
         .state("newpassword", {
             url: "/newpassword/:categoryId/:masterPassword",
-            templateUrl: "templates/password_new.html",
+            templateUrl: "templates/password_new.htm",
             controller: "PasswordController"
         })
         .state("viewpassword", {
             url: "/viewpassword/:categoryId/:masterPassword/:passwordId",
-            templateUrl: "templates/password_view.html",
+            templateUrl: "templates/password_view.htm",
             controller: "PasswordController"
         });
     $urlRouterProvider.otherwise('/locked');
